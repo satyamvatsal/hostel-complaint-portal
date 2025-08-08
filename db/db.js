@@ -8,7 +8,6 @@ const connectDB = async () => {
     .connect(MONGO_URL)
     .then(() => console.log("MongoDB connected"))
     .catch((err) => console.error("Failed to connect to mongodb, ", err));
-  console.log(db);
 };
 
 module.exports = connectDB;
