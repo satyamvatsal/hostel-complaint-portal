@@ -3,6 +3,18 @@ const router = express.Router();
 
 router.post("/register", async (req, res) => {
   console.log(req.body);
+  try {
+    const data = {
+      message: "User created",
+    };
+    res.render("register", data);
+  } catch (err) {
+    console.log("error while registering user, ", err);
+    const data = {
+      error: `cannot create user: ${err.message}`,
+    };
+    res.render("register", data);
+  }
   return res.status(200).json({ message: "account created" });
 });
 
