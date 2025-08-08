@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Complaint Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+   
+
+</head>
+<body>
+        <body class="bg-blue-50 min-h-screen flex flex-col items-center py-10">
+        
+            <h1 class=" mb-5 text-center text-2xl text-blue-700 sm:text-3xl font-bold">
+                Hostel Complaint Portal
+            </h1>
+  
+        <!-- Heading -->
+        <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4">
+        <button id="addComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Add Complaint</button>
+        <button id="myComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">My Complaints</button>
+        <button id="recentComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Recent Complaints</button>
+    </div>
+
+    <script>
+        const buttons = document.querySelectorAll(".tab-btn");
+
+        buttons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                // Remove active styles from all buttons
+                buttons.forEach(b => b.classList.remove("bg-blue-600", "text-white"));
+                // Reset to default style
+                buttons.forEach(b => b.classList.add("bg-white", "text-blue-600"));
+                // Add active style to clicked button
+                btn.classList.remove("bg-white", "text-blue-600");
+                btn.classList.add("bg-blue-600", "text-white");
+            });
+        });
+    </script>
+
+
+       
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+</body>
+</html>

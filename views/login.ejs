@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Hostel Complaint Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
-
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+   
 
 
 </head>
@@ -33,7 +32,7 @@
                  <!-- checking user exit or not -->
                
                 
-                <form class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md" action="/user/register" method="POST">
+                <form class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md" action="/user/login" method="POST">
                      <% if (typeof message !== "undefined" && message) { %>
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                         <span class="block sm:inline"><%= message %></span>
@@ -48,7 +47,7 @@
              
                 <div class="mb-4">
                     <label class="block mb-1 font-semibold text-gray-700">Password</label>
-                    <input name="password" type="password" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your room password">
+                    <input name="password" type="password" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your  password">
                 </div>
                 
                 
