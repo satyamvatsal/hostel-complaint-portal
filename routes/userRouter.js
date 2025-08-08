@@ -15,7 +15,6 @@ router.post("/register", async (req, res) => {
     };
     res.render("register", data);
   }
-  return res.status(200).json({ message: "account created" });
 });
 
 router.get("/register", (req, res) => {
