@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  
+
        <div class="min-h-screen flex">
        
 
@@ -20,7 +20,10 @@
             <div class="hidden lg:flex w-1/2 relative bg-gradient-to-b from-blue-600 to-blue-800 text-white items-center justify-center">
                 <div class="absolute inset-0 bg-[url('/complaint.png')] bg-cover bg-center opacity-30"></div>
                 <div class="relative z-10 text-center p-8">
-                <h1 class="text-5xl font-bold mb-4">Login And Register Your Complaint</h1>
+                                          <h1 class="text-5xl font-bold mb-4">
+                                Hostel Complaint Portal
+                        </h1>
+                <h1 class="text-3xl font-bold mb-4">Login And Register Your Complaint</h1>
                 <p class="text-lg max-w-md mx-auto">
                     Let's connect and improve your hostel experience. Your voice matters — let’s make it heard.
                 </p>
@@ -31,8 +34,9 @@
             <div class="flex w-full lg:w-1/2 items-center justify-center bg-gray-50 p-8">
                  <!-- checking user exit or not -->
                
-                
+                      
                 <form class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md" action="/user/login" method="POST">
+
                      <% if (typeof message !== "undefined" && message) { %>
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                         <span class="block sm:inline"><%= message %></span>

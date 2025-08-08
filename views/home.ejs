@@ -6,45 +6,106 @@
     <title>Hostel Complaint Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-   
-
 </head>
-<body>
-        <body class="bg-blue-50 min-h-screen flex flex-col items-center py-10">
-        
-            <h1 class=" mb-5 text-center text-2xl text-blue-700 sm:text-3xl font-bold">
-                Hostel Complaint Portal
-            </h1>
-  
-        <!-- Heading -->
-        <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4">
-        <button id="addComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Add Complaint</button>
+<body class="bg-blue-50 min-h-screen flex flex-col items-center py-10">
+
+    <h1 class="mb-5 text-center text-2xl text-blue-700 sm:text-3xl font-bold">
+        Hostel Complaint Portal
+    </h1>
+
+    <!-- Buttons -->
+    <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4">
+        <button id="recentComplaintBtn" class="tab-btn bg-blue-600 text-white border border-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Recent Complaints</button>
         <button id="myComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">My Complaints</button>
-        <button id="recentComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Recent Complaints</button>
+        <button id="addComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Add Complaint</button>
+    </div>
+
+    <!-- Recent Complaints List -->
+    <div id="recentComplaints" class="mt-6 w-full max-w-4xl p-6 ">
+        <!-- Dummy data loop -->
+        <script>
+            for (let i = 1; i <= 15; i++) {
+                document.write(`
+                    <div class="pb-4 mb-4 bg-white">
+                        <p><span class=" ml-5 font-semibold">Username:</span> User${i}</p>
+                        <p><span class="ml-5 font-semibold">Hostel:</span> ${i % 2 === 0 ? "10A" : "12B"}</p>
+                        <p><span class="ml-5 font-semibold">Room Number:</span> ${100 + i}</p>
+                        <p><span class=" ml-5 font-semibold">Pending:</span> Pending</p>
+                        <p><span class=" ml-5 font-semibold">Category:</span> ${i % 3 === 0 ? "Water" : "Electricity"}</p>
+                        <p><span class="ml-5 font-semibold">Title:</span> Complaint Title ${i}</p>
+                        <p><span class="ml-5 font-semibold">Description:</span> This is a dummy description for complaint number ${i}.</p>
+                    </div>
+                `);
+            }
+        </script>
+    </div>
+
+    <!-- My Complaints -->
+    <div id="myComplaints" class="hidden mt-6 w-full max-w-4xl bg-white p-6 rounded-lg shadow">
+        <p class="text-gray-500">You have not made any complaints yet.</p>
+    </div>
+
+    <!-- Complaint Form -->
+    <div id="complaintForm" class="hidden mt-6 w-full max-w-lg bg-white p-6 rounded-lg shadow max-h-96 overflow-y-auto">
+        <h2 class="text-xl font-bold text-blue-600 mb-4">Add Your Complaint</h2>
+        <form action="/complaint" method="POST">
+            <label class="block mb-2 font-medium">Category:</label>
+            <select name="category" class="w-full border border-gray-300 rounded p-2 mb-4" required>
+                <option value="">Select a category</option>
+                <option value="Water">Water</option>
+                <option value="Network">Network</option>
+                <option value="Mess">Mess</option>
+                <option value="Electricity">Electricity</option>
+                <option value="Washroom">Washroom</option>
+                <option value="General">General</option>
+            </select>
+
+            <label class="block mb-2 font-medium">Title:</label>
+            <input type="text" class="w-full border border-gray-300 rounded p-2 mb-4" required>
+
+            <label class="block mb-2 font-medium">Description:</label>
+            <textarea class="w-full border border-gray-300 rounded p-2 mb-4" rows="4" required></textarea>
+
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+        </form>
     </div>
 
     <script>
         const buttons = document.querySelectorAll(".tab-btn");
+        const complaintForm = document.getElementById("complaintForm");
+        const recentComplaints = document.getElementById("recentComplaints");
+        const myComplaints = document.getElementById("myComplaints");
+
+        function showSection(section) {
+            // Hide all
+            complaintForm.classList.add("hidden");
+            recentComplaints.classList.add("hidden");
+            myComplaints.classList.add("hidden");
+
+            // Show selected
+            if (section === "recent") recentComplaints.classList.remove("hidden");
+            if (section === "my") myComplaints.classList.remove("hidden");
+            if (section === "add") complaintForm.classList.remove("hidden");
+        }
 
         buttons.forEach(btn => {
             btn.addEventListener("click", () => {
-                // Remove active styles from all buttons
+                // Reset styles
                 buttons.forEach(b => b.classList.remove("bg-blue-600", "text-white"));
-                // Reset to default style
                 buttons.forEach(b => b.classList.add("bg-white", "text-blue-600"));
-                // Add active style to clicked button
+
+                // Active button
                 btn.classList.remove("bg-white", "text-blue-600");
                 btn.classList.add("bg-blue-600", "text-white");
+
+                // Show relevant section
+                if (btn.id === "addComplaintBtn") showSection("add");
+                else if (btn.id === "recentComplaintBtn") showSection("recent");
+                else showSection("my");
             });
         });
     </script>
 
-
-       
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-
 </body>
 </html>
