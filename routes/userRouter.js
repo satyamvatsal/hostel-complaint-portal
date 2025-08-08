@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/User");
 const registerUser = require("../controllers/registerUser");
 const loginUser = require("../controllers/loginUser");
+const authMiddleware = require("../middleware/auth");
 
 router.post("/register", async (req, res) => {
   console.log(req.body);
@@ -35,10 +36,17 @@ router.get("/login", (req, res) => {
 router.post("/login", async (req, res) => {
   console.log(req.body);
   try {
-    const status = await loginUser(req.body);
-    if (status != true) {
+    const token = await loginUser(req.body);
+    if (!token) {
       throw new Error("user login failed");
     }
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
+    const data = {};
     res.render("home", data);
   } catch (err) {
     const data = {
@@ -49,7 +57,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/home", (req, res) => {
+router.get("/home", authMiddleware, (req, res) => {
   const data = {};
   res.render("home", data);
 });
