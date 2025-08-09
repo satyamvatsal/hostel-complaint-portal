@@ -54,7 +54,15 @@ router.post("/login", async (req, res) => {
       sameSite: "strict",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
-    const data = {};
+    const complaints = await Complaint.find({
+      hostel_no: req.user.hostel_no,
+      status: "not resolved",
+    }).sort({ createdAt: -1 });
+
+    const data = {
+      user: req.user,
+      complaints,
+    };
     res.render("home", data);
   } catch (err) {
     const data = {
@@ -69,6 +77,7 @@ router.get("/home", authMiddleware, async (req, res) => {
   try {
     const complaints = await Complaint.find({
       hostel_no: req.user.hostel_no,
+      status: "not resolved",
     }).sort({ createdAt: -1 });
 
     const data = {
@@ -76,7 +85,6 @@ router.get("/home", authMiddleware, async (req, res) => {
       complaints,
     };
     console.log(data);
-
     res.render("home", data);
   } catch (err) {
     const data = {

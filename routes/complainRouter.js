@@ -12,6 +12,7 @@ router.post("/add", async (req, res) => {
   const status = await addComplaint(req.user, complain);
   const complaints = await Complaint.find({
     hostel_no: req.user.hostel_no,
+    status: "not resolved",
   }).sort({ createdAt: -1 });
 
   const data = {
@@ -24,6 +25,16 @@ router.post("/add", async (req, res) => {
 
 router.get("/recent", (req, res) => {
   const data = {};
+});
+router.get("/myComplaints", (req, res) => {
+  const user = req.user;
+  const complaints = Complaint.find({ user: user.id });
+  const data = {
+    user,
+    complaints,
+    myComplaints: true,
+  };
+  res.render("home", data);
 });
 
 module.exports = router;
