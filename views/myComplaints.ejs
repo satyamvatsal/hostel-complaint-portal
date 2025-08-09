@@ -8,6 +8,16 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-blue-50 min-h-screen flex flex-col items-center py-10">
+   <div>
+    <div class="absolute top-4 right-4">
+      <form action="/user/logout" method="POST" class="inline">
+    <button type="submit" 
+        class="text-red-500 font-bold py-2 px-4 ">
+        Logout
+    </button>
+</form>
+    </div>
+   </div>
   <img src="/manit.png" alt="Hostel Complaint Portal Logo" class="mb-6 w-24 h-24" />
   <h1 class="mb-5 text-center text-2xl text-blue-700 sm:text-3xl font-bold">
     Hostel Complaint Portal jatin
@@ -16,18 +26,25 @@
   <!-- Buttons -->
   <div>
     <!-- Buttons visible on sm and up -->
+
     <div class="hidden sm:flex flex-row gap-4 w-full sm:w-auto px-4">
+
       <button id="recentComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Recent Complaints</button>
       <button id="myComplaintBtn" class="tab-btn bg-blue-600 text-white border border-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">My Complaints</button>
       <button id="addComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Add Complaint</button>
+      <div class="absolute top-4 right-4">
+
+</div>
     </div>
 
     <!-- Dropdown visible only on xs -->
     <div class="sm:hidden px-4 mt-4">
+
       <select id="complaintSelect" class="w-full border border-blue-600 bg-blue-500 text-white rounded-lg px-6 py-5 pr-12 shadow">
         <option value="recent">Recent Complaints</option>
         <option value="my" selected>My Complaints</option>
         <option value="add">Add Complaint</option>
+
       </select>
     </div>
   </div>
