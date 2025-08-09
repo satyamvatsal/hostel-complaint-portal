@@ -68,85 +68,89 @@
     </div>
 
     <script>
+      
+        const user = <%-JSON.stringify(user) %>;
+        const complaints = <%-JSON.stringify(complaints)%>;
+
 const recentComplaints = document.getElementById("recentComplaints");
 
 function getCategoryIcon(category) {
   switch (category) {
-    case 'Water':
+    case 'water':
       return `<svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C8 7 5 10 5 14a7 7 0 0014 0c0-4-3-7-7-12z" />
       </svg>`;
-    case 'Electricity':
+    case 'electricity':
       return `<svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
         <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>`;
-    case 'Network':
+    case 'network':
       return `<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h18M12 3v18" />
       </svg>`;
-    case 'Mess':
+    case 'mess':
       return `<svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v8m-4-4h8" />
       </svg>`;
-    case 'Washroom':
+    case 'washroom':
       return `<svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <circle cx="12" cy="12" r="10" />
       </svg>`;
-    default:
+    case 'general':
       return `<svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
         <circle cx="12" cy="12" r="10" />
       </svg>`;
   }
 }
 
-for (let i = 1; i <= 15; i++) {
-  const categories = ['Water', 'Electricity', 'Network', 'Mess', 'Washroom', 'General'];
-  const category = categories[i % categories.length];
-  const categoryIcon = getCategoryIcon(category);
+        complaints.forEach((comp, i) =>  {
+        console.log("Rendering complaint:", comp);
+        const category = comp.category;
+        const categoryIcon = getCategoryIcon(category);
 
-  const card = document.createElement("div");
-  card.className = "max-w-full sm:max-w-xl mx-auto p-6 sm:p-8 bg-white rounded-xl shadow-xl border border-gray-200 relative";
+        const card = document.createElement("div");
+        card.className = "max-w-full sm:max-w-xl mx-auto p-6 sm:p-8 bg-white rounded-xl shadow-xl border border-gray-200 relative";
 
-  card.innerHTML = `
-    <div class="absolute top-4 left-4 flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold shadow">
-      <span class="inline-block">${categoryIcon}</span>
-      <span>${category}</span>
-    </div>
+        card.innerHTML = `
+            <div class="absolute top-4 left-4 flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold shadow">
+            <span class="inline-block">${categoryIcon}</span>
+            <span>${category}</span>
+            </div>
 
-    <div class="absolute top-4 right-4 bg-red-100 text-red-700 px-4 py-1 rounded-full font-bold shadow">
-      Pending
-    </div>
+            <div class="absolute top-4 right-4 bg-red-100 text-red-700 px-4 py-1 rounded-full font-bold shadow">
+            Pending
+            </div>
 
-    <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 text-center mb-6 pt-8">Complaint Title ${i}</h2>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 text-center mb-6 pt-8">${comp.title}</h2>
 
-    <p class="text-gray-700 text-base sm:text-lg leading-relaxed mb-8 px-4 text-center max-w-full sm:max-w-xl mx-auto">
-      This is a dummy description for complaint number ${i}. It explains the issue in detail to help resolve the complaint efficiently.
-    </p>
+            <p class="text-gray-700 text-base sm:text-lg leading-relaxed mb-8 px-4 text-center max-w-full sm:max-w-xl mx-auto">
+                    ${comp.description}
+            </p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-gray-800 text-sm sm:text-base px-4 sm:px-8">
-      <div class="flex items-center space-x-2">
-        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A8.959 8.959 0 0112 15a8.959 8.959 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-        <span><strong>Username:</strong> User${i}</span>
-      </div>
-      <div class="flex items-center space-x-2">
-        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 14h10M9 18h6" />
-        </svg>
-        <span><strong>Hostel:</strong> ${i % 2 === 0 ? "10A" : "12B"}</span>
-      </div>
-      <div class="flex items-center space-x-2">
-        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-        </svg>
-        <span><strong>Room Number:</strong> ${100 + i}</span>
-      </div>
-    </div>
-  `;
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-gray-800 text-sm sm:text-base px-4 sm:px-8">
+            <div class="flex items-center space-x-2">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A8.959 8.959 0 0112 15a8.959 8.959 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span><strong>Username:</strong> ${user.username}</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 14h10M9 18h6" />
+                </svg>
+                <span><strong>Hostel:</strong> ${user.hostel_no}</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                </svg>
+                <span><strong>Room Number:</strong> ${user.room_no}</span>
+            </div>
+            </div>
+        `;
 
-  recentComplaints.appendChild(card);
-}
+        recentComplaints.appendChild(card);
+        });
     </script>
 
     <script>
