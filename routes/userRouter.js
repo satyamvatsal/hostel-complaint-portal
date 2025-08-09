@@ -20,7 +20,7 @@ router.post("/register", async (req, res) => {
   } catch (err) {
     console.log("error while registering user, ", err);
     const data = {
-      error: `cannot create user: ${err.message}`,
+      message: `cannot create user: ${err.message}`,
     };
     res.render("register", data);
   }
@@ -79,8 +79,11 @@ router.get("/home", authMiddleware, async (req, res) => {
 
     res.render("home", data);
   } catch (err) {
+    const data = {
+      message: "Error fetching complaints",
+    };
     console.error("Error fetching complaints:", err);
-    res.status(500).send("Server error");
+    res.render("home", data);
   }
 });
 

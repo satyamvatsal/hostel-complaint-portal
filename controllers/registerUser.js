@@ -3,9 +3,17 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 const registerUser = async (data) => {
-  const existingUser = await User.findOne({ scholar_no: data.scholarNumber });
+  let existingUser = await User.findOne({ scholar_no: data.scholarNumber });
   if (existingUser) {
     throw new Error("User already exists");
+  }
+  existingUser = await User.findOne({ phone: data.phoneNumber });
+  if (existingUser) {
+    throw new Error("phone number is already registered");
+  }
+  existingUser = await User.findOne({ email: data.email });
+  if (existingUser) {
+    throw new Error("email is already registered");
   }
   const hashedPassword = await bcrypt.hash(data.password, saltRounds);
   const newUser = new User({
