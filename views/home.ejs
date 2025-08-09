@@ -25,7 +25,11 @@
             });
             </script>        
         <button id="addComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Add Complaint</button>
-
+                  <script>
+            document.getElementById('addComplaintBtn').addEventListener('click', () => {
+                window.location.href = '/complaint/add';
+            });
+            </script>  
       </div>
 
       
@@ -50,31 +54,6 @@
     <!-- My Complaints -->
     <div id="myComplaints" class="hidden mt-6 w-full max-w-4xl bg-white p-6 rounded-lg shadow">
       <p class="text-gray-500">You have not made any complaints yet.</p>
-    </div>
-
-    <!-- Complaint Form -->
-    <div id="complaintForm" class="hidden mt-6 w-full max-w-lg bg-white p-6 rounded-lg shadow ">
-      <h2 class="text-xl font-bold text-blue-600 mb-4">Add Your Complaint</h2>
-      <form action="/complaint/add" method="POST">
-          <label class="block mb-2 font-medium">Category:</label>
-          <select name="category" class="w-full border border-gray-300 rounded p-2 mb-4" required>
-              <option value="">Select a category</option>
-              <option value="water">Water</option>
-              <option value="network">Network</option>
-              <option value="mess">Mess</option>
-              <option value="electricity">Electricity</option>
-              <option value="washroom">Washroom</option>
-              <option value="general">General</option>
-          </select>
-
-          <label class="block mb-2 font-medium">Title:</label>
-          <input name="title" type="text" class="w-full border border-gray-300 rounded p-2 mb-4" required>
-
-          <label class="block mb-2 font-medium">Description:</label>
-          <textarea name="description" class="w-full border border-gray-300 rounded p-2 mb-4" rows="4" required></textarea>
-
-          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
-      </form>
     </div>
 
 

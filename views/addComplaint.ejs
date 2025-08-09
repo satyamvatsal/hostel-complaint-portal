@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hostel Complaint Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-50 min-h-screen flex flex-col items-center py-10">
+  <img src="/manit.png" alt="Hostel Complaint Portal Logo" class="mb-6 w-24 h-24" />
+  <h1 class="mb-5 text-center text-2xl text-blue-700 sm:text-3xl font-bold">
+    Hostel Complaint Portal add
+  </h1>
+
+  <!-- Buttons -->
+  <div>
+    <!-- Buttons visible on sm and up -->
+    <div class="hidden sm:flex flex-row gap-4 w-full sm:w-auto px-4">
+      <button id="recentComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Recent Complaints</button>
+      <button id="myComplaintBtn" class="tab-btn bg-white text-blue-600 border border-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">My Complaints</button>
+      <button id="addComplaintBtn" class="tab-btn bg-blue-600 border border-blue-600 text-white px-6 py-3 rounded-lg shadow w-full sm:w-auto">Add Complaint</button>
+    </div>
+
+    <!-- Dropdown visible only on xs -->
+    <div class="sm:hidden px-4 mt-4">
+      <select id="complaintSelect" class="w-full border border-blue-600 bg-blue-500 text-white rounded-lg px-6 py-5 pr-12 shadow">
+        <option value="recent">Recent Complaints</option>
+        <option value="my" >My Complaints</option>
+        <option value="add" selected>Add Complaint</option>
+      </select>
+    </div>
+  </div>
+
+
+
+  <!-- Complaint Form -->
+  <div id="complaintForm" class=" mt-6 w-full max-w-lg bg-white p-6 rounded-lg shadow ">
+    <h2 class="text-xl font-bold text-blue-600 mb-4">Add Your Complaint</h2>
+    <form action="/complaint/add" method="POST">
+      <label class="block mb-2 font-medium">Category:</label>
+      <select name="category" class="w-full border border-gray-300 rounded p-2 mb-4" required>
+        <option value="">Select a category</option>
+        <option value="water">Water</option>
+        <option value="network">Network</option>
+        <option value="mess">Mess</option>
+        <option value="electricity">Electricity</option>
+        <option value="washroom">Washroom</option>
+        <option value="general">General</option>
+      </select>
+
+      <label class="block mb-2 font-medium">Title:</label>
+      <input name="title" type="text" class="w-full border border-gray-300 rounded p-2 mb-4" required />
+
+      <label class="block mb-2 font-medium">Description:</label>
+      <textarea name="description" class="w-full border border-gray-300 rounded p-2 mb-4" rows="4" required></textarea>
+
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+    </form>
+  </div>
+
+  <script>
+   
+
+    // Button elements
+    const recentBtn = document.getElementById('recentComplaintBtn');
+    const myBtn = document.getElementById('myComplaintBtn');
+    const addBtn = document.getElementById('addComplaintBtn');
+
+    // Dropdown
+    const complaintSelect = document.getElementById('complaintSelect');
+
+    // Show/hide sections utility
+    function showSection(section) {
+      if (section === 'recent') {
+        // Redirect for recent complaints
+        window.location.href = '/user/home';
+      } else if (section === 'my') {
+        window.location.href = '/complaint/mycomplaints';
+      } else if (section === 'add') {
+        window.location.href = '/complaint/add';
+      }
+      setActiveButton(section);
+    }
+
+   
+
+    // Button click handlers
+    recentBtn.addEventListener('click', () => showSection('recent'));
+    myBtn.addEventListener('click', () => showSection('my'));
+    addBtn.addEventListener('click', () => showSection('add'));
+
+    // Dropdown change handler
+    complaintSelect.addEventListener('change', (e) => {
+      showSection(e.target.value);
+    });
+
+    // On page load default to My Complaints
+    showSection('');
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+</body>
+</html>

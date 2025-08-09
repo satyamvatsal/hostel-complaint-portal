@@ -37,30 +37,6 @@
     <!-- Complaint cards will be inserted here -->
   </div>
 
-  <!-- Complaint Form -->
-  <div id="complaintForm" class="hidden mt-6 w-full max-w-lg bg-white p-6 rounded-lg shadow ">
-    <h2 class="text-xl font-bold text-blue-600 mb-4">Add Your Complaint</h2>
-    <form action="/complaint/add" method="POST">
-      <label class="block mb-2 font-medium">Category:</label>
-      <select name="category" class="w-full border border-gray-300 rounded p-2 mb-4" required>
-        <option value="">Select a category</option>
-        <option value="water">Water</option>
-        <option value="network">Network</option>
-        <option value="mess">Mess</option>
-        <option value="electricity">Electricity</option>
-        <option value="washroom">Washroom</option>
-        <option value="general">General</option>
-      </select>
-
-      <label class="block mb-2 font-medium">Title:</label>
-      <input name="title" type="text" class="w-full border border-gray-300 rounded p-2 mb-4" required />
-
-      <label class="block mb-2 font-medium">Description:</label>
-      <textarea name="description" class="w-full border border-gray-300 rounded p-2 mb-4" rows="4" required></textarea>
-
-      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
-    </form>
-  </div>
 
   <script>
     // Assume these come from your backend templating engine
@@ -115,71 +91,106 @@
     }
 
     // Render complaints inside myComplaintsDiv
-    complaints.forEach(comp => {
-      const categoryIcon = getCategoryIcon(comp.category);
+    // 1️⃣ Create Sort Dropdown
+const sortContainer = document.createElement("div");
+sortContainer.className = "flex justify-center items-center gap-4 mb-6";
 
-      const card = document.createElement("div");
-      card.className = "max-w-full sm:max-w-xl mx-auto p-6 sm:p-8 bg-white rounded-xl shadow-xl border border-gray-200 relative";
+sortContainer.innerHTML = `
+    <label for="categorySortMy" class="text-lg mt-10 font-semibold text-gray-700">Sort by Category:</label>
+    <select id="categorySortMy" class="border mt-10 bg-blue-600 border-gray-300 rounded-lg px-4 py-2 text-white shadow focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="all">All</option>
+        <option value="Water">Water</option>
+        <option value="Electricity">Electricity</option>
+        <option value="Network">Network</option>
+        <option value="Mess">Food</option>
+        <option value="Washroom">Washroom</option>
+        <option value="General">General</option>
+    </select>
+`;
 
-      card.innerHTML = `
-        <div class="absolute top-4 left-4 flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold shadow">
-          <span class="inline-block">${categoryIcon}</span>
-          <span>${comp.category}</span>
-        </div>
+// Insert sort dropdown before complaints list
+myComplaintsDiv.parentNode.insertBefore(sortContainer, myComplaintsDiv);
 
-        <div class="absolute top-4 right-4 bg-red-100 text-red-700 px-4 py-1 rounded-full font-bold shadow">
-          Pending
-        </div>
+// 2️⃣ Render complaints (with filter)
+function renderMyComplaints(filterCategory = "all") {
+    myComplaintsDiv.innerHTML = ""; // Clear previous
 
-        <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 text-center mb-6 pt-8">${comp.title}</h2>
+    complaints
+        .filter(comp => filterCategory === "all" || comp.category.toLowerCase() === filterCategory.toLowerCase())
+        .forEach(comp => {
+            const categoryIcon = getCategoryIcon(comp.category);
 
-        <p class="text-gray-700 text-base sm:text-lg leading-relaxed mb-8 px-4 text-center max-w-full sm:max-w-xl mx-auto">
-          ${comp.description}
-        </p>
+            const card = document.createElement("div");
+            card.className = "max-w-full sm:max-w-xl mx-auto p-6 sm:p-8 bg-white rounded-xl shadow-xl border border-gray-200";
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-gray-800 text-sm sm:text-base px-4 sm:px-8">
-          <div class="flex items-center space-x-2">
-            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A8.959 8.959 0 0112 15a8.959 8.959 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <strong><span> ${user.username}</span></strong>
-          </div>
-          <div class="flex items-center space-x-2">
-            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 14h10M9 18h6" />
-            </svg>
-            <strong><span>${user.hostel_no}</span></strong>
-          </div>
-          <div class="flex items-center space-x-2">
-            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-            </svg>
-            <strong><span>Room: ${user.room_no}</span></strong>
-          </div>
-            <div class="flex items-center space-x-2">
-            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v8m-4-4h8" />
-            </svg>
-            <strong>
-            <span>
-                ${new Date(comp.createdAt)
-                .toLocaleDateString('en-IN', { 
-                    timeZone: 'Asia/Kolkata', 
-                    day: '2-digit', 
-                    month: 'long', 
-                    year: 'numeric' 
-                })
-                .replace(/ /g, '\u00A0')}
-            </span>
-            </strong> 
-            </div>
+            card.innerHTML = `
+                <!-- Flex badges -->
+                <div class="flex flex-wrap justify-between items-center mb-4">
+                    <div class="flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold shadow">
+                        <span class="inline-block">${categoryIcon}</span>
+                        <span>${comp.category}</span>
+                    </div>
+                    <div class="bg-red-100 text-red-700 px-4 py-1 rounded-full font-bold shadow mt-2 sm:mt-0">
+                        Pending
+                    </div>
+                </div>
 
-     
-        
-      `;
-    
-      myComplaintsDiv.appendChild(card);
-    });
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 text-center mb-6">${comp.title}</h2>
+
+                <p class="text-gray-700 text-base sm:text-lg leading-relaxed mb-8 px-4 text-center max-w-full sm:max-w-xl mx-auto">
+                    ${comp.description}
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-gray-800 text-sm sm:text-base px-4 sm:px-8">
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A8.959 8.959 0 0112 15a8.959 8.959 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <strong>${comp.user.username}</strong>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 14h10M9 18h6" />
+                        </svg>
+                        <strong>${user.hostel_no}</strong>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                        </svg>
+                        <strong>Room: ${comp.user.room_no}</strong>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v8m-4-4h8" />
+                        </svg>
+                        <strong>
+                            ${new Date(comp.createdAt)
+                                .toLocaleDateString('en-IN', { 
+                                    timeZone: 'Asia/Kolkata', 
+                                    day: '2-digit', 
+                                    month: 'long', 
+                                    year: 'numeric' 
+                                })
+                                .replace(/ /g, '\u00A0')}
+                        </strong>
+                    </div>
+                </div>
+            `;
+
+            myComplaintsDiv.appendChild(card);
+        });
+}
+
+// 3️⃣ Listen for sort change
+document.getElementById("categorySortMy").addEventListener("change", (e) => {
+    renderMyComplaints(e.target.value);
+});
+
+// 4️⃣ Initial load
+renderMyComplaints();
+
+   
 
     // Button elements
     const recentBtn = document.getElementById('recentComplaintBtn');
@@ -198,8 +209,7 @@
         myComplaintsDiv.classList.remove('hidden');
         complaintFormDiv.classList.add('hidden');
       } else if (section === 'add') {
-        complaintFormDiv.classList.remove('hidden');
-        myComplaintsDiv.classList.add('hidden');
+        window.location.href = '/complaint/add';
       }
       setActiveButton(section);
     }
