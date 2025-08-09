@@ -2,6 +2,7 @@ const express = require("express");
 const renderHomePage = require("../utils/renderHomePage");
 const router = express.Router();
 const loginAdminUser = require("../controllers/loginAdminUser");
+const authMiddleare = require("../middleware/auth");
 
 router.get("/login", (req, res) => {
   res.render("adminLogin");
@@ -27,8 +28,10 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/home", (req, res) => {
-  const filter = {};
+router.get("/home", authMiddleare, (req, res) => {
+  const filter = {
+    hostel_no: req.user.hostel_no,
+  };
   const data = renderHomePage(req, res, {}, filter);
   res.render("adminHome");
 });
