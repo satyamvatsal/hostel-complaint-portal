@@ -32,6 +32,10 @@ router.post("/add", async (req, res) => {
   res.render("home", data);
 });
 
+router.get("/add", (req, res) => {
+  res.render("addComplaint");
+});
+
 router.get("/myComplaints", async (req, res) => {
   const user = req.user;
   const complaints = await Complaint.find({ user: user.id });
