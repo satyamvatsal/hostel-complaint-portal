@@ -65,7 +65,6 @@ router.post("/resolve/:id", async (req, res) => {
     };
     const filter = {
       hostel_no: req.user.hostel_no,
-      status: "not resolved",
     };
     const data = await renderHomePage(req, res, msg, filter);
     res.render("myComplaints", data);
