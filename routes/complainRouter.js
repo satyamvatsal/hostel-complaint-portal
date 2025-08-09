@@ -29,7 +29,7 @@ router.post("/add", async (req, res) => {
     { message: "Complaint registered successfully" },
     filter,
   );
-  res.render("home", data);
+  res.render("myComplaints", data);
 });
 
 router.get("/add", (req, res) => {
@@ -49,9 +49,14 @@ router.get("/myComplaints", async (req, res) => {
 router.post("/resolve/:id", async (req, res) => {
   try {
     const user = req.user;
-    const complaint = await Complaint.findOne({ user: user.id });
+    const complaintId = req.params.id;
+    console.log(complaintId);
+    const complaint = await Complaint.findOne({
+      user: user.id,
+      _id: complaintId,
+    });
     if (!complaint) {
-      res.redirect("/user/home");
+      return res.redirect("/user/home");
     }
     complaint.status = "resolved";
     await complaint.save();
@@ -63,10 +68,10 @@ router.post("/resolve/:id", async (req, res) => {
       status: "not resolved",
     };
     const data = await renderHomePage(req, res, msg, filter);
-    res.render("myComplains", data);
+    res.render("myComplaints", data);
   } catch (err) {
     console.log("errror while resolving complaint,", err);
-    res.redirect("/user/home");
+    return res.redirect("/user/home");
   }
 });
 
