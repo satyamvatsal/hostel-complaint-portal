@@ -70,7 +70,7 @@ router.get("/home", authMiddleware, async (req, res) => {
     status: "not resolved",
     hostel_no: req.user.hostel_no,
   };
-  const data = await renderHomePage(req, res, filter);
+  const data = await renderHomePage(req, res, {}, filter);
   res.render("home", data);
 });
 
