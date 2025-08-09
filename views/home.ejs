@@ -28,6 +28,7 @@
 
       </div>
 
+      
 
       <!-- Dropdown visible only on xs -->
       <div class="sm:hidden px-4 mt-4">
@@ -80,7 +81,9 @@
     <script>
 
         // Sample data for user and complaints
-      
+            
+
+
         const user = <%-JSON.stringify(user) %>;
         const complaints = <%-JSON.stringify(complaints)%>;
 
@@ -163,9 +166,17 @@
 
         recentComplaints.appendChild(card);
         });
+
+                
     </script>
 
     <script>
+        // Show the appropriate tab based on the user's choice
+        // Show the appropriate tab based on the user's choice
+
+
+  
+        // Tab functionality
         const buttons = document.querySelectorAll(".tab-btn");
         const complaintForm = document.getElementById("complaintForm");
         const recentComplaintsDiv = document.getElementById("recentComplaints");

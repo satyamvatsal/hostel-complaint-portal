@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hostel Complaint Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-50 min-h-screen flex flex-col items-center py-10">
+  <img src="/manit.png" alt="Hostel Complaint Portal Logo" class="mb-6 w-24 h-24" />
+  <h1 class="mb-5 text-center text-2xl text-blue-700 sm:text-3xl font-bold">
+    Hostel Complaint Portal jatin
+  </h1>
+
+  <!-- Buttons -->
+  <div>
+    <!-- Buttons visible on sm and up -->
+    <div class="hidden sm:flex flex-row gap-4 w-full sm:w-auto px-4">
+      <button id="recentComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Recent Complaints</button>
+      <button id="myComplaintBtn" class="tab-btn bg-blue-600 text-white border border-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">My Complaints</button>
+      <button id="addComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Add Complaint</button>
+    </div>
+
+    <!-- Dropdown visible only on xs -->
+    <div class="sm:hidden px-4 mt-4">
+      <select id="complaintSelect" class="w-full border border-blue-600 bg-blue-500 text-white rounded-lg px-6 py-5 pr-12 shadow">
+        <option value="recent">Recent Complaints</option>
+        <option value="my" selected>My Complaints</option>
+        <option value="add">Add Complaint</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- My Complaints List -->
+  <div id="myComplaints" class="mt-6 w-full max-w-4xl p-6 space-y-10">
+    <!-- Complaint cards will be inserted here -->
+  </div>
+
+  <!-- Complaint Form -->
+  <div id="complaintForm" class="hidden mt-6 w-full max-w-lg bg-white p-6 rounded-lg shadow ">
+    <h2 class="text-xl font-bold text-blue-600 mb-4">Add Your Complaint</h2>
+    <form action="/complaint/add" method="POST">
+      <label class="block mb-2 font-medium">Category:</label>
+      <select name="category" class="w-full border border-gray-300 rounded p-2 mb-4" required>
+        <option value="">Select a category</option>
+        <option value="water">Water</option>
+        <option value="network">Network</option>
+        <option value="mess">Mess</option>
+        <option value="electricity">Electricity</option>
+        <option value="washroom">Washroom</option>
+        <option value="general">General</option>
+      </select>
+
+      <label class="block mb-2 font-medium">Title:</label>
+      <input name="title" type="text" class="w-full border border-gray-300 rounded p-2 mb-4" required />
+
+      <label class="block mb-2 font-medium">Description:</label>
+      <textarea name="description" class="w-full border border-gray-300 rounded p-2 mb-4" rows="4" required></textarea>
+
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    // Assume these come from your backend templating engine
+    const user = <%- JSON.stringify(user) %>;
+    const complaints = <%- JSON.stringify(complaints) %>;
+
+    const myComplaintsDiv = document.getElementById("myComplaints");
+    const complaintFormDiv = document.getElementById("complaintForm");
+
+    // Helper: Returns SVG icon HTML for complaint category
+    function getCategoryIcon(category) {
+      switch (category) {
+        case 'water':
+          return `<svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C8 7 5 10 5 14a7 7 0 0014 0c0-4-3-7-7-12z" />
+                  </svg>`;
+        case 'electricity':
+          return `<svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>`;
+        case 'network':
+          return `<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h18M12 3v18" />
+                  </svg>`;
+        case 'mess':
+          return `<svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v8m-4-4h8" />
+                  </svg>`;
+        case 'washroom':
+          return `<svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" />
+                  </svg>`;
+        case 'general':
+          return `<svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
+                    <circle cx="12" cy="12" r="10" />
+                  </svg>`;
+        default:
+          return '';
+      }
+    }
+
+    // Render complaints inside myComplaintsDiv
+    complaints.forEach(comp => {
+      const categoryIcon = getCategoryIcon(comp.category);
+
+      const card = document.createElement("div");
+      card.className = "max-w-full sm:max-w-xl mx-auto p-6 sm:p-8 bg-white rounded-xl shadow-xl border border-gray-200 relative";
+
+      card.innerHTML = `
+        <div class="absolute top-4 left-4 flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold shadow">
+          <span class="inline-block">${categoryIcon}</span>
+          <span>${comp.category}</span>
+        </div>
+
+        <div class="absolute top-4 right-4 bg-red-100 text-red-700 px-4 py-1 rounded-full font-bold shadow">
+          Pending
+        </div>
+
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 text-center mb-6 pt-8">${comp.title}</h2>
+
+        <p class="text-gray-700 text-base sm:text-lg leading-relaxed mb-8 px-4 text-center max-w-full sm:max-w-xl mx-auto">
+          ${comp.description}
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-gray-800 text-sm sm:text-base px-4 sm:px-8">
+          <div class="flex items-center space-x-2">
+            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A8.959 8.959 0 0112 15a8.959 8.959 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span><strong>Username:</strong> ${user.username}</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 14h10M9 18h6" />
+            </svg>
+            <span><strong>Hostel:</strong> ${user.hostel_no}</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            </svg>
+            <span><strong>Room Number:</strong> ${user.room_no}</span>
+          </div>
+        </div>
+      `;
+
+      myComplaintsDiv.appendChild(card);
+    });
+
+    // Button elements
+    const recentBtn = document.getElementById('recentComplaintBtn');
+    const myBtn = document.getElementById('myComplaintBtn');
+    const addBtn = document.getElementById('addComplaintBtn');
+
+    // Dropdown
+    const complaintSelect = document.getElementById('complaintSelect');
+
+    // Show/hide sections utility
+    function showSection(section) {
+      if (section === 'recent') {
+        // Redirect for recent complaints
+        window.location.href = '/user/home';
+      } else if (section === 'my') {
+        myComplaintsDiv.classList.remove('hidden');
+        complaintFormDiv.classList.add('hidden');
+      } else if (section === 'add') {
+        complaintFormDiv.classList.remove('hidden');
+        myComplaintsDiv.classList.add('hidden');
+      }
+      setActiveButton(section);
+    }
+
+    // Set active button style
+    function setActiveButton(activeSection) {
+      const map = {
+        recent: recentBtn,
+        my: myBtn,
+        add: addBtn
+      };
+
+      [recentBtn, myBtn, addBtn].forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'text-white');
+        btn.classList.add('bg-white', 'text-blue-600');
+      });
+
+      if (map[activeSection]) {
+        map[activeSection].classList.add('bg-blue-600', 'text-white');
+        map[activeSection].classList.remove('bg-white', 'text-blue-600');
+      }
+    }
+
+    // Button click handlers
+    recentBtn.addEventListener('click', () => showSection('recent'));
+    myBtn.addEventListener('click', () => showSection('my'));
+    addBtn.addEventListener('click', () => showSection('add'));
+
+    // Dropdown change handler
+    complaintSelect.addEventListener('change', (e) => {
+      showSection(e.target.value);
+    });
+
+    // On page load default to My Complaints
+    showSection('my');
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+</body>
+</html>
