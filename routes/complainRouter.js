@@ -11,16 +11,24 @@ router.post("/add", async (req, res) => {
     category: req.body.category,
   };
   const status = await addComplaint(req.user, complain);
-  const complaints = await Complaint.find({
-    hostel_no: req.user.hostel_no,
-    status: "not resolved",
-  }).sort({ createdAt: -1 });
-
-  const data = {
-    user: req.user,
-    complaints,
-    message: "Complaint added successfully",
+  const filter = {
+    user: req.user.id,
   };
+  if (status != true) {
+    const data = await renderHomePage(
+      req,
+      res,
+      { message: "Error while adding complaint" },
+      filter,
+    );
+    res.render("myComplaints", data);
+  }
+  const data = await renderHomePage(
+    req,
+    res,
+    { message: "Complaint registered successfully" },
+    filter,
+  );
   res.render("home", data);
 });
 
