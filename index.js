@@ -17,7 +17,7 @@ connectDB();
 
 app.use("/user", userRouter);
 app.use("/complaint", authMiddleare, complainRouter);
-app.get("/", (req, res) => res.redirect(""));
+app.get("/", (req, res) => res.redirect("/user"));
 
 const port = process.env.PORT;
 app.listen(port, "0.0.0.0", () => {

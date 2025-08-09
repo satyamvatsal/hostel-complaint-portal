@@ -5,6 +5,7 @@ const registerUser = require("../controllers/registerUser");
 const loginUser = require("../controllers/loginUser");
 const authMiddleware = require("../middleware/auth");
 const Complaint = require("../models/Complaint");
+const renderHomePage = require("../utils/renderHomePage");
 
 router.post("/register", async (req, res) => {
   console.log(req.body);
@@ -65,26 +66,11 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/home", authMiddleware, async (req, res) => {
-  try {
-    const complaints = await Complaint.find({
-      hostel_no: req.user.hostel_no,
-      status: "not resolved",
-    }).sort({ createdAt: -1 });
-
-    const data = {
-      user: req.user,
-      complaints,
-      myComplaints: false,
-    };
-    console.log(data);
-    res.render("home", data);
-  } catch (err) {
-    const data = {
-      message: "Error fetching complaints",
-    };
-    console.error("Error fetching complaints:", err);
-    res.render("home", data);
-  }
+  const filter = {
+    status: "not resolved",
+    hostel_no: req.user.hostel_no,
+  };
+  await renderHomePage(req, res, filter);
 });
 
 router.all("/{*splat}", (req, res) => {
