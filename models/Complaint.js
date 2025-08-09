@@ -2,12 +2,17 @@ const mongoose = require("mongoose");
 const complaintSchema = new mongoose.Schema({
   category: {
     type: String,
-    enum: ["water", "internet", "mess", "electricity", "washroom", "general"],
+    enum: ["water", "network", "mess", "electricity", "washroom", "general"],
     required: true,
   },
   title: {
     type: String,
     trim: true,
+  },
+  hostel_no: {
+    type: String,
+    trim: true,
+    required: true,
   },
   description: {
     type: String,
@@ -24,6 +29,7 @@ const complaintSchema = new mongoose.Schema({
   },
   resolvedAt: {
     type: Date,
+    default: null,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,

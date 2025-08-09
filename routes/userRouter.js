@@ -4,6 +4,7 @@ const User = require("../models/User");
 const registerUser = require("../controllers/registerUser");
 const loginUser = require("../controllers/loginUser");
 const authMiddleware = require("../middleware/auth");
+const Complaint = require("../models/Complaint");
 
 router.post("/register", async (req, res) => {
   console.log(req.body);
@@ -64,9 +65,23 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/home", authMiddleware, (req, res) => {
-  const data = {};
-  res.render("home", data);
+router.get("/home", authMiddleware, async (req, res) => {
+  try {
+    const complaints = await Complaint.find({
+      hostel_no: req.user.hostel_no,
+    }).sort({ createdAt: -1 });
+
+    const data = {
+      user: req.user,
+      complaints,
+    };
+    console.log(data);
+
+    res.render("home", data);
+  } catch (err) {
+    console.error("Error fetching complaints:", err);
+    res.status(500).send("Server error");
+  }
 });
 
 router.all("/{*splat}", (req, res) => {

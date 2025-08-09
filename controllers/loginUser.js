@@ -19,7 +19,15 @@ const loginUser = async (data) => {
     throw new Error("Scholar number or password is incorrect");
   }
   const token = jwt.sign(
-    { id: user._id, scholar_no: user.scholar_no, username: user.username },
+    {
+      id: user._id,
+      scholar_no: user.scholar_no,
+      username: user.username,
+      hostel_no: user.hostel_no,
+      room_no: user.room_no,
+      phone: user.phone,
+      email: user.email,
+    },
     SECRET,
     {
       expiresIn: EXPIRES_IN,

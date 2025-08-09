@@ -7,6 +7,7 @@ const addComplaint = async (user, complain) => {
     description: complain.description,
     category: complain.category,
     user: user.id,
+    hostel_no: user.hostel_no,
   });
   await newComplain.save();
   console.log("Complaint saved");
