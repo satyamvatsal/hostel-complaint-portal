@@ -1,6 +1,7 @@
 const express = require("express");
 const renderHomePage = require("../utils/renderHomePage");
 const router = express.Router();
+const loginAdminUser = require("../controllers/loginAdminUser");
 
 router.get("/login", (req, res) => {
   res.render("adminLogin");
@@ -16,10 +17,13 @@ router.post("/login", async (req, res) => {
       sameSite: "strict",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
-    res.redirect("/user/home");
+    res.redirect("/admin/home");
   } catch (err) {
     console.error("error while admin login: ", err);
-    res.render("home");
+    const data = {
+      message: "error while login",
+    };
+    res.render("adminHome", data);
   }
 });
 
