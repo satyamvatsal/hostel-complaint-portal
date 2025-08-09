@@ -5,6 +5,10 @@ const complaintSchema = new mongoose.Schema({
     enum: ["water", "internet", "mess", "electricity", "washroom", "general"],
     required: true,
   },
+  title: {
+    type: String,
+    trim: true,
+  },
   description: {
     type: String,
     trim: true,

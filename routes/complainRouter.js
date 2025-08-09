@@ -1,8 +1,14 @@
 const express = require("express");
-const router = express.Router();
+const addComplaint = require("../controllers/addComplaint");
 
-router.post("/add", (req, res) => {
-  console.log(req.body);
+const router = express.Router();
+router.post("/add", async (req, res) => {
+  const complain = {
+    title: req.body.title,
+    description: req.body.description,
+    category: req.body.category,
+  };
+  const status = await addComplaint(req.user, complain);
   const data = {
     message: "Complaint added successfully",
   };
