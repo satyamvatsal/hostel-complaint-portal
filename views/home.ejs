@@ -18,7 +18,12 @@
       <!-- Buttons visible on sm and up -->
       <div class="hidden sm:flex flex-row gap-4 w-full sm:w-auto px-4">
         <button id="recentComplaintBtn" class="tab-btn bg-blue-600 text-white border border-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Recent Complaints</button>
-        <button id="myComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto" action="/complaints/myComplaints" method="GET"> My Complaints</button>
+        <button id="myComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">My Complaints</button>
+            <script>
+            document.getElementById('myComplaintBtn').addEventListener('click', () => {
+                window.location.href = '/complaints/myComplaints';
+            });
+            </script>        
         <button id="addComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Add Complaint</button>
 
       </div>
