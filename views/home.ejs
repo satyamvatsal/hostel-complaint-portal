@@ -18,9 +18,11 @@
       <!-- Buttons visible on sm and up -->
       <div class="hidden sm:flex flex-row gap-4 w-full sm:w-auto px-4">
         <button id="recentComplaintBtn" class="tab-btn bg-blue-600 text-white border border-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Recent Complaints</button>
-        <button id="myComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">My Complaints</button>
+        <button id="myComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto" action="/complaints/myComplaints" method="GET"> My Complaints</button>
         <button id="addComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Add Complaint</button>
+
       </div>
+
 
       <!-- Dropdown visible only on xs -->
       <div class="sm:hidden px-4 mt-4">
@@ -31,6 +33,8 @@
         </select>
       </div>
     </div>
+
+
 
     <!-- Recent Complaints List -->
     <div id="recentComplaints" class="mt-6 w-full max-w-4xl p-6 space-y-10">
@@ -67,41 +71,44 @@
       </form>
     </div>
 
+
     <script>
+
+        // Sample data for user and complaints
       
         const user = <%-JSON.stringify(user) %>;
         const complaints = <%-JSON.stringify(complaints)%>;
 
-const recentComplaints = document.getElementById("recentComplaints");
+            const recentComplaints = document.getElementById("recentComplaints");
 
-function getCategoryIcon(category) {
-  switch (category) {
-    case 'water':
-      return `<svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C8 7 5 10 5 14a7 7 0 0014 0c0-4-3-7-7-12z" />
-      </svg>`;
-    case 'electricity':
-      return `<svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
-        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>`;
-    case 'network':
-      return `<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h18M12 3v18" />
-      </svg>`;
-    case 'mess':
-      return `<svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v8m-4-4h8" />
-      </svg>`;
-    case 'washroom':
-      return `<svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10" />
-      </svg>`;
-    case 'general':
-      return `<svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
-        <circle cx="12" cy="12" r="10" />
-      </svg>`;
-  }
-}
+            function getCategoryIcon(category) {
+            switch (category) {
+                case 'water':
+                return `<svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C8 7 5 10 5 14a7 7 0 0014 0c0-4-3-7-7-12z" />
+                </svg>`;
+                case 'electricity':
+                return `<svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>`;
+                case 'network':
+                return `<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h18M12 3v18" />
+                </svg>`;
+                case 'mess':
+                return `<svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v8m-4-4h8" />
+                </svg>`;
+                case 'washroom':
+                return `<svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" />
+                </svg>`;
+                case 'general':
+                return `<svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
+                    <circle cx="12" cy="12" r="10" />
+                </svg>`;
+            }
+            }
 
         complaints.forEach((comp, i) =>  {
         console.log("Rendering complaint:", comp);
