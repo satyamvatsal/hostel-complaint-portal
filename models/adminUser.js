@@ -15,6 +15,11 @@ const adminUserSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    type: {
+      type: String,
+      enum: ["admin", "none"],
+      default: "admin",
+    },
   },
   {
     timestamps: true,

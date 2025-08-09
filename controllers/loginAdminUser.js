@@ -7,7 +7,7 @@ const saltRounds = 10;
 const SECRET = process.env.JWT_SECRET;
 const EXPIRES_IN = process.env.JWT_EXPIRES_IN;
 
-const loginUser = async (data) => {
+const loginAdminUser = async (data) => {
   const username = data.username;
   const password = data.password;
   const adminUser = await AdminUser.findOne({ username: username });
@@ -23,6 +23,7 @@ const loginUser = async (data) => {
       id: adminUser._id,
       username: adminUser.username,
       hostel_no: adminUser.hostel_no,
+      type: adminUser.type,
     },
     SECRET,
     {
@@ -31,4 +32,4 @@ const loginUser = async (data) => {
   );
   return token;
 };
-module.exports = loginUser;
+module.exports = loginAdminUser;
