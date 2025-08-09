@@ -8,17 +8,29 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="bg-blue-50 min-h-screen flex flex-col items-center py-10">
-
+    <image src="/manit.png" alt="Hostel Complaint Portal Logo" class="mb-6 w-24 h-24">
     <h1 class="mb-5 text-center text-2xl text-blue-700 sm:text-3xl font-bold">
         Hostel Complaint Portal
     </h1>
 
     <!-- Buttons -->
-    <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4">
-        <button id="recentComplaintBtn" class="tab-btn bg-blue-600 text-white border border-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Recent Complaints</button>
-        <button id="myComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">My Complaints</button>
-        <button id="addComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Add Complaint</button>
-    </div>
+   <div>
+  <!-- Buttons visible on sm and up -->
+  <div class="hidden sm:flex flex-row gap-4 w-full sm:w-auto px-4">
+    <button id="recentComplaintBtn" class="tab-btn bg-blue-600 text-white border border-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Recent Complaints</button>
+    <button id="myComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">My Complaints</button>
+    <button id="addComplaintBtn" class="tab-btn bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Add Complaint</button>
+  </div>
+
+  <!-- Dropdown visible only on xs -->
+  <div class="sm:hidden px-4 mt-4">
+    <select id="complaintSelect" class="w-full border border-blue-600 bg-blue-500 text-white rounded-lg px-6 py-5 pr-12 shadow">
+      <option value="recent" selected>Recent Complaints</option>
+      <option value="my">My Complaints</option>
+      <option value="add">Add Complaint</option>
+    </select>
+  </div>
+</div>
 
     <!-- Recent Complaints List -->
     <div id="recentComplaints" class="mt-6 w-full max-w-4xl p-6 ">
@@ -46,7 +58,7 @@
     </div>
 
     <!-- Complaint Form -->
-    <div id="complaintForm" class="hidden mt-6 w-full max-w-lg bg-white p-6 rounded-lg shadow max-h-96 overflow-y-auto">
+    <div id="complaintForm" class="hidden mt-6 w-full max-w-lg bg-white p-6 rounded-lg shadow ">
         <h2 class="text-xl font-bold text-blue-600 mb-4">Add Your Complaint</h2>
         <form action="/complaint" method="POST">
             <label class="block mb-2 font-medium">Category:</label>
@@ -104,6 +116,17 @@
                 else showSection("my");
             });
         });
+
+
+          // When dropdown changes, simulate clicking corresponding button
+            const complaintSelect = document.getElementById("complaintSelect");
+
+            complaintSelect.addEventListener("change", (e) => {
+                const val = e.target.value;
+                if (val === "recent") document.getElementById("recentComplaintBtn").click();
+                else if (val === "my") document.getElementById("myComplaintBtn").click();
+                else if (val === "add") document.getElementById("addComplaintBtn").click();
+            });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
