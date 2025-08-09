@@ -42,7 +42,23 @@ router.get("/myComplaints", async (req, res) => {
     myComplaints: true,
   };
   console.log(data);
-  res.render("home", data);
+  res.render("myComplaints", data);
+});
+
+router.post("/resolve/:id", async (req, res) => {
+  try {
+    const user = req.user;
+    const complaint = await Complaint.findOne({ user: user.id });
+    if (!complaint) {
+      res.redirect("/user/home");
+    }
+    complaint.status = "resolved";
+    await complaint.save();
+    res.redirect("/user/home");
+  } catch (err) {
+    console.log("errror while resolving complaint,", err);
+    res.redirect("/user/home");
+  }
 });
 
 module.exports = router;
