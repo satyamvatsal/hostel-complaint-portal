@@ -33,7 +33,7 @@ router.get("/home", authMiddleare, (req, res) => {
     hostel_no: req.user.hostel_no,
   };
   const data = renderHomePage(req, res, {}, filter);
-  res.render("adminHome");
+  res.render("adminHome", data);
 });
 
 module.exports = router;
