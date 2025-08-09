@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hostel Complaint Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-50 min-h-screen flex flex-col items-center py-10">
+       <div>
+    <div class="absolute top-4 right-4">
+      <form action="/user/logout" method="POST" class="inline">
+    <button type="submit" 
+        class="text-red-500 font-bold py-2 px-4 ">
+        Logout
+    </button>
+</form>
+    </div>
+   </div>
+    <img src="/manit.png" alt="Hostel Complaint Portal Logo" class="mb-6 w-24 h-24" />
+    <h1 class="mb-5 text-center text-2xl text-blue-700 sm:text-3xl font-bold">
+        Hostel Complaint Portal
+    </h1>
+
+    <!-- Buttons -->
+    <div>
+      <!-- Buttons visible on sm and up -->
+      <div class="hidden sm:flex flex-row gap-4 w-full sm:w-auto px-4">
+        <button id="recentComplaintBtn" class="tab-btn bg-blue-600 text-white border border-blue-600 px-6 py-3 rounded-lg shadow w-full sm:w-auto">Recent Complaints</button>
+      </div>
+
+      
+
+     
+
+
+
+    <!-- Recent Complaints List -->
+    <div id="recentComplaints" class="mt-6 w-full max-w-4xl p-6 space-y-10">
+      <!-- Cards will be inserted here -->
+    </div>
+
+    
+
+    <script>
+
+        // Sample data for user and complaints
+            
+
+
+        const user = <%-JSON.stringify(user) %>;
+        const complaints = <%-JSON.stringify(complaints)%>;
+
+            const recentComplaints = document.getElementById("recentComplaints");
+
+            function getCategoryIcon(category) {
+            switch (category) {
+                case 'water':
+                return `<svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C8 7 5 10 5 14a7 7 0 0014 0c0-4-3-7-7-12z" />
+                </svg>`;
+                case 'electricity':
+                return `<svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>`;
+                case 'network':
+                return `<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h18M12 3v18" />
+                </svg>`;
+                case 'mess':
+                return `<svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v8m-4-4h8" />
+                </svg>`;
+                case 'washroom':
+                return `<svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" />
+                </svg>`;
+                case 'general':
+                return `<svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
+                    <circle cx="12" cy="12" r="10" />
+                </svg>`;
+            }
+            }
+
+                        // 1️⃣ Create Sort Dropdown above complaints list
+                const sortContainer = document.createElement("div");
+                sortContainer.className = "flex justify-center items-center gap-4 mb-6";
+                
+                sortContainer.innerHTML = `
+                    <label for="categorySort" class="text-lg mt-10 font-semibold text-gray-700">Sort by Category:</label>
+                    <select id="categorySort" class="border mt-10 text-white bg-blue-600 border-gray-300 rounded-lg px-4 py-2  shadow focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="all">All</option>
+                        <option value="water">Water</option>
+                        <option value="electricity">Electricity</option>
+                        <option value="network">Network</option>
+                        <option value="mess">Mess</option>
+                        <option value="washroom">Washroom</option>
+                        <option value="general">General</option>
+                    </select>
+                `;
+                recentComplaints.parentNode.insertBefore(sortContainer, recentComplaints);
+
+                // 2️⃣ Function to render complaints based on selected category
+                
+                function renderComplaints(filterCategory = "all") {
+                recentComplaints.innerHTML = ""; // clear previous cards
+
+    // Filter complaints first
+    const filteredComplaints = complaints.filter(
+        comp => filterCategory === "all" || comp.category.toLowerCase() === filterCategory.toLowerCase()
+    );
+
+    // If none found, show message and return early
+    if (filteredComplaints.length === 0) {
+        console.log("No complaints found for this category.");
+        const noComplaints = document.createElement("p");
+        noComplaints.className = "text-red-500 text-center mt-6";
+        noComplaints.textContent = "No complaints found for this category.";
+        recentComplaints.appendChild(noComplaints);
+        return;
+    }
+
+    // Otherwise, render each complaint
+    filteredComplaints.forEach(comp => {
+        const category = comp.category;
+        const categoryIcon = getCategoryIcon(category);
+
+        const card = document.createElement("div");
+        card.className = "max-w-full sm:max-w-xl mx-auto p-6 sm:p-8 bg-white rounded-xl shadow-xl border border-gray-200 relative";
+
+        card.innerHTML = `
+            <div class="flex flex-wrap justify-between items-center mb-4">
+                <div class="flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold shadow">
+                    <span class="inline-block">${categoryIcon}</span>
+                    <span>${category}</span>
+                </div>
+                <div class="bg-red-100 text-red-700 px-4 py-1 rounded-full font-bold shadow mt-2 sm:mt-0">
+                    Pending
+                </div>
+            </div>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 text-center mb-6 pt-8">${comp.title}</h2>
+            <p class="text-gray-700 text-base sm:text-lg leading-relaxed mb-8 px-4 text-center max-w-full sm:max-w-xl mx-auto">
+                ${comp.description}
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-gray-800 text-sm sm:text-base px-4 sm:px-8">
+                <div class="flex items-center space-x-2">
+                    <strong><span>${comp.user.username}</span></strong>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <strong><span>${user.hostel_no}</span></strong>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <strong><span>Room: ${comp.user.room_no}</span></strong>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <strong>
+                        ${new Date(comp.createdAt)
+                            .toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'long', year: 'numeric' })
+                            .replace(/ /g, '\u00A0')}
+                    </strong>
+                </div>
+            </div>
+        `;
+
+        recentComplaints.appendChild(card);
+    });
+}
+
+
+                // 3️⃣ Sort dropdown change event
+                document.getElementById("categorySort").addEventListener("change", (e) => {
+                    renderComplaints(e.target.value);
+                });
+
+                // 4️⃣ Initial render
+                renderComplaints();
+
+                
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+</body>
+</html>
