@@ -29,7 +29,11 @@ router.get("/register", (req, res) => {
   res.render("register");
 });
 
-router.get("/login", authMiddleware, (req, res) => {
+router.get("/login", (req, res) => {
+  const token = req.cookies.token;
+  if (token) {
+    return res.redirect("/user/home");
+  }
   if (req.user) {
     res.redirect("/user/home");
   }
@@ -63,5 +67,9 @@ router.post("/login", async (req, res) => {
 router.get("/home", authMiddleware, (req, res) => {
   const data = {};
   res.render("home", data);
+});
+
+router.all("/{*splat}", (req, res) => {
+  res.redirect("/user/login");
 });
 module.exports = router;

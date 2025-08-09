@@ -8,3 +8,9 @@ router.post("/add", (req, res) => {
   };
   res.render("home", data);
 });
+
+router.get("/recent", (req, res) => {
+  const data = {};
+});
+
+module.exports = router;
