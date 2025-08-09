@@ -65,6 +65,7 @@ router.post("/resolve/:id", async (req, res) => {
     };
     const filter = {
       hostel_no: req.user.hostel_no,
+      user: req.used.id,
     };
     const data = await renderHomePage(req, res, msg, filter);
     res.render("myComplaints", data);
