@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const userRouter = require("./routes/userRouter");
 const complainRouter = require("./routes/complainRouter");
 const authMiddleare = require("./middleware/auth");
+const adminRouter = require("./routes/adminRouter");
 require("dotenv").config({ path: ".env.local" });
 
 app.set("view engine", "ejs");
@@ -17,8 +18,8 @@ connectDB();
 
 app.use("/user", userRouter);
 app.use("/complaint", authMiddleare, complainRouter);
-app.get("/", (req, res) => res.redirect("/user"));
-
+app.use("/admin", adminRouter);
+app.all("/{*splat}", (req, res) => res.redirect("/user"));
 const port = process.env.PORT;
 app.listen(port, "0.0.0.0", () => {
   console.log(`Example app listening on port ${port}`);
