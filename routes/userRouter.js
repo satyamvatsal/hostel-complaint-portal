@@ -78,6 +78,7 @@ router.get("/home", authMiddleware, async (req, res) => {
     const complaints = await Complaint.find({
       hostel_no: req.user.hostel_no,
       status: "not resolved",
+      myComplaints: false,
     }).sort({ createdAt: -1 });
 
     const data = {

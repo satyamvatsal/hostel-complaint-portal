@@ -26,14 +26,15 @@ router.post("/add", async (req, res) => {
 router.get("/recent", (req, res) => {
   const data = {};
 });
-router.get("/myComplaints", (req, res) => {
+router.get("/myComplaints", async (req, res) => {
   const user = req.user;
-  const complaints = Complaint.find({ user: user.id });
+  const complaints = await Complaint.find({ user: user.id });
   const data = {
     user,
     complaints,
     myComplaints: true,
   };
+  console.log(data);
   res.render("home", data);
 });
 
