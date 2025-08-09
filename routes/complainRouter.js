@@ -50,7 +50,6 @@ router.post("/resolve/:id", async (req, res) => {
   try {
     const user = req.user;
     const complaintId = req.params.id;
-    console.log(complaintId);
     const complaint = await Complaint.findOne({
       user: user.id,
       _id: complaintId,
@@ -70,7 +69,7 @@ router.post("/resolve/:id", async (req, res) => {
     const data = await renderHomePage(req, res, msg, filter);
     res.render("myComplaints", data);
   } catch (err) {
-    console.log("errror while resolving complaint,", err);
+    console.log("error while resolving complaint,", err);
     return res.redirect("/user/home");
   }
 });
