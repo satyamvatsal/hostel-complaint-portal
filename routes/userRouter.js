@@ -51,7 +51,6 @@ router.post("/logout", (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  console.log(req.user);
   try {
     const token = await loginUser(req.body);
     if (!token) {
