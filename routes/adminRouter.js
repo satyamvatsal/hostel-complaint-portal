@@ -1,4 +1,5 @@
 const express = require("express");
+const renderHomePage = require("../utils/renderHomePage");
 const router = express.Router();
 
 router.get("/login", (req, res) => {
@@ -21,4 +22,11 @@ router.post("/login", async (req, res) => {
     res.render("home");
   }
 });
+
+router.get("/home", (req, res) => {
+  const filter = {};
+  const data = renderHomePage(req, res, {}, filter);
+  res.render("adminHome");
+});
+
 module.exports = router;
