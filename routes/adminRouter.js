@@ -57,6 +57,7 @@ router.post("/resolve/:id", authMiddleareAdmin, async (req, res) => {
       hostel_no: req.user.hostel_no,
     };
     const data = await renderHomePage(req, res, msg, filter);
+    console.log(data);
     res.render("adminHome", data);
   } catch (err) {
     console.log("error while resolving complaint,", err);
