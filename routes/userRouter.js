@@ -42,7 +42,7 @@ router.get("/login", (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  console.log(req.body);
+  console.log(req.user);
   try {
     const token = await loginUser(req.body);
     if (!token) {
@@ -54,16 +54,7 @@ router.post("/login", async (req, res) => {
       sameSite: "strict",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
-    const complaints = await Complaint.find({
-      hostel_no: req.user.hostel_no,
-      status: "not resolved",
-    }).sort({ createdAt: -1 });
-
-    const data = {
-      user: req.user,
-      complaints,
-    };
-    res.render("home", data);
+    res.redirect("/user/home");
   } catch (err) {
     const data = {
       message: `Login error: ${err.message}`,
@@ -78,12 +69,12 @@ router.get("/home", authMiddleware, async (req, res) => {
     const complaints = await Complaint.find({
       hostel_no: req.user.hostel_no,
       status: "not resolved",
-      myComplaints: false,
     }).sort({ createdAt: -1 });
 
     const data = {
       user: req.user,
       complaints,
+      myComplaints: false,
     };
     console.log(data);
     res.render("home", data);
