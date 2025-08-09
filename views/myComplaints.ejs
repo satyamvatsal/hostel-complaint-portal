@@ -131,10 +131,23 @@ myComplaintsDiv.parentNode.insertBefore(sortContainer, myComplaintsDiv);
 // 2️⃣ Render complaints (with filter)
 function renderMyComplaints(filterCategory = "all") {
     myComplaintsDiv.innerHTML = ""; // Clear previous
+        // Filter complaints first
+    const filteredComplaints = complaints.filter(
+        comp => filterCategory === "all" || comp.category.toLowerCase() === filterCategory.toLowerCase()
+    );
 
-    complaints
-        .filter(comp => filterCategory === "all" || comp.category.toLowerCase() === filterCategory.toLowerCase())
-        .forEach(comp => {
+    // If none found, show message and return early
+    if (filteredComplaints.length === 0) {
+        console.log("No complaints found for this category.");
+        const noComplaints = document.createElement("p");
+        noComplaints.className = "text-red-500 text-center mt-6";
+        noComplaints.textContent = "No complaints found for this category.";
+        myComplaintsDiv.appendChild(noComplaints);
+        return;
+    }
+
+  
+        filteredComplaints.forEach(comp => {
             const categoryIcon = getCategoryIcon(comp.category);
 
             const card = document.createElement("div");
