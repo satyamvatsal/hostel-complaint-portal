@@ -36,7 +36,7 @@
                  <!-- checking user exit or not -->
                
                       
-                <form class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md" action="/user/login" method="POST">
+                <form class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md" action="/admin/login" method="POST">
 
                      <% if (typeof message !== "undefined" && message) { %>
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
@@ -60,11 +60,9 @@
                 <button class="w-full bg-red-700 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
                     Submit
                 </button>
-                <p class="mt-4 text-center text-gray-600">
-                    Don't have an account? <a href="/user/register" class="text-red-600 hover:underline">Register here</a>
-                </p>
+                
                  <p class="mt-4 text-center text-gray-600">
-                    Admin?   <a href="/admin/login" class="text-red-600 hover:underline">Click here</a>
+                    Student?   <a href="/user/login" class="text-red-600 hover:underline">Click here</a>
 
                 </p>
                 </form>
