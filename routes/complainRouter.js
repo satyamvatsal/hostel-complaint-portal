@@ -51,14 +51,15 @@ router.post("/resolve/:id", async (req, res) => {
     }
     complaint.status = "resolved";
     await complaint.save();
-    const data = {
+    const msg = {
       message: "Complaint resolved successfully.",
     };
     const filter = {
       hostel_no: req.user.hostel_no,
       status: "not resolved",
     };
-    await renderHomePage(req, res, data, filter);
+    const data = await renderHomePage(req, res, msg, filter);
+    res.render("myComplains", data);
   } catch (err) {
     console.log("errror while resolving complaint,", err);
     res.redirect("/user/home");
