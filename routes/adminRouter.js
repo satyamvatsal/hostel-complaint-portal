@@ -28,11 +28,12 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/home", authMiddleare, (req, res) => {
+router.get("/home", authMiddleare, async (req, res) => {
   const filter = {
     hostel_no: req.user.hostel_no,
   };
-  const data = renderHomePage(req, res, {}, filter);
+  const data = await renderHomePage(req, res, {}, filter);
+  console.log(data);
   res.render("adminHome", data);
 });
 
