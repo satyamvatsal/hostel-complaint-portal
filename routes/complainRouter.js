@@ -1,6 +1,7 @@
 const express = require("express");
 const addComplaint = require("../controllers/addComplaint");
 const Complaint = require("../models/Complaint");
+const renderHomePage = require("../utils/renderHomePage");
 
 const router = express.Router();
 router.post("/add", async (req, res) => {
@@ -36,12 +37,10 @@ router.get("/recent", async (req, res) => {
 router.get("/myComplaints", async (req, res) => {
   const user = req.user;
   const complaints = await Complaint.find({ user: user.id });
-  const data = {
-    user,
-    complaints,
-    myComplaints: true,
+  const filter = {
+    user: req.user.id,
   };
-  console.log(data);
+  const data = await renderHomePage(req, res, {}, filter);
   res.render("myComplaints", data);
 });
 
@@ -54,7 +53,14 @@ router.post("/resolve/:id", async (req, res) => {
     }
     complaint.status = "resolved";
     await complaint.save();
-    res.redirect("/user/home");
+    const data = {
+      message: "Complaint resolved successfully.",
+    };
+    const filter = {
+      hostel_no: req.user.hostel_no,
+      status: "not resolved",
+    };
+    await renderHomePage(req, res, data, filter);
   } catch (err) {
     console.log("errror while resolving complaint,", err);
     res.redirect("/user/home");

@@ -1,7 +1,10 @@
 const Complaint = require("../models/Complaint");
+const User = require("../models/User");
 
 async function renderHomePage(req, res, extraData = {}, filter = {}) {
-  const complaints = await Complaint.find(filter).sort({ createdAt: -1 });
+  const complaints = await Complaint.find(filter)
+    .populate("user", "username room_no")
+    .sort({ createdAt: -1 });
 
   const data = {
     user: req.user,
@@ -9,7 +12,7 @@ async function renderHomePage(req, res, extraData = {}, filter = {}) {
     ...extraData,
   };
   console.log(data);
-  res.render("home", data);
+  return data;
 }
 
 module.exports = renderHomePage;
