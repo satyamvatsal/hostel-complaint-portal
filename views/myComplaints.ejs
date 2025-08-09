@@ -123,6 +123,19 @@ function renderMyComplaints(filterCategory = "all") {
             const card = document.createElement("div");
             card.className = "max-w-full sm:max-w-xl mx-auto p-6 sm:p-8 bg-white rounded-xl shadow-xl border border-gray-200";
 
+            const statusBadge = comp.status === "resolved"
+                ? `<div class="bg-green-100 text-green-700 px-4 py-1 rounded-full font-bold shadow mt-2 sm:mt-0">
+                        Resolved
+                   </div>`
+                : `<form action="/complaint/resolve/${comp._id}" method="POST" onsubmit="return confirmResolve()">
+                        <button 
+                            type="submit"
+                            class="bg-red-100 text-red-700 px-4 py-1 rounded-full font-bold shadow mt-2 sm:mt-0 hover:bg-red-200"
+                        >
+                            Mark as resolved
+                        </button>
+                   </form>`;
+
             card.innerHTML = `
                 <!-- Flex badges -->
                 <div class="flex flex-wrap justify-between items-center mb-4">
@@ -130,9 +143,7 @@ function renderMyComplaints(filterCategory = "all") {
                         <span class="inline-block">${categoryIcon}</span>
                         <span>${comp.category}</span>
                     </div>
-                    <div class="bg-red-100 text-red-700 px-4 py-1 rounded-full font-bold shadow mt-2 sm:mt-0">
-                        Pending
-                    </div>
+                    ${statusBadge}
                 </div>
 
                 <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 text-center mb-6">${comp.title}</h2>
@@ -181,6 +192,12 @@ function renderMyComplaints(filterCategory = "all") {
             myComplaintsDiv.appendChild(card);
         });
 }
+
+// Confirmation dialog
+function confirmResolve() {
+    return confirm("Once marked as resolved, you cannot change it back. Continue?");
+}
+
 
 // 3️⃣ Listen for sort change
 document.getElementById("categorySortMy").addEventListener("change", (e) => {
@@ -246,7 +263,11 @@ renderMyComplaints();
     // On page load default to My Complaints
     showSection('my');
   </script>
-
+  <script>
+    <% if (typeof message !== "undefined" && message) { %>
+        alert("<%= message %>");
+    <% } %>
+</script>
   <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 </html>
