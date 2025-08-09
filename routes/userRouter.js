@@ -41,6 +41,14 @@ router.get("/login", (req, res) => {
   }
   res.render("login");
 });
+router.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.redirect("/user/login");
+});
 
 router.post("/login", async (req, res) => {
   console.log(req.user);
