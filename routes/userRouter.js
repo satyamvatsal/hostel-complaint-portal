@@ -29,7 +29,10 @@ router.get("/register", (req, res) => {
   res.render("register");
 });
 
-router.get("/login", (req, res) => {
+router.get("/login", authMiddleware, (req, res) => {
+  if (req.user) {
+    res.redirect("/user/home");
+  }
   res.render("login");
 });
 
