@@ -125,5 +125,5 @@ This project was brought to life by the collaborative efforts of:
 
 ## 📄 License
 
-This project is licensed under the GNU General Purporse Licence 3.0 - see the `LICENSE.md` file for details.
+This project is licensed under the GNU General Public Licence 3.0 - see the `LICENSE` file for details.
 ---
