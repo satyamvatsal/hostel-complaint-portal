@@ -64,7 +64,7 @@ Make sure you have the following installed on your local machine:
 
 1.  **Clone the repository**
     ```sh
-    git clone [https://github.com/your-username/hostel-complaint-portal.git](https://github.com/your-username/hostel-complaint-portal.git)
+    git clone [https://github.com/satyamvatsal/hostel-complaint-portal.git](https://github.com/satyamvatsal/hostel-complaint-portal.git)
     ```
 2.  **Navigate to the project directory**
     ```sh
@@ -78,14 +78,15 @@ Make sure you have the following installed on your local machine:
     Create a `.env` file in the root directory and add the necessary environment variables.
     ```env
     MONGO_URI=your_mongodb_connection_string
-    PORT=3000
-    SESSION_SECRET=a_strong_and_long_random_secret_string
+    PORT=1080
+    JWT_SECERT=a_strong_and_long_random_secret_string
+    JWT_EXPIRESIN=1d
     ```
 5.  **Start the server**
     ```sh
     npm start
     ```
-    The application should now be running at `http://localhost:3000`.
+    The application should now be running at `http://localhost:1080`.
 
 ---
 
@@ -118,11 +119,11 @@ Make sure you have the following installed on your local machine:
 This project was brought to life by the collaborative efforts of:
 
 * **Jatin Patidar** - *EJS Rendering & Frontend Logic*
-* **Satyam Vatsal** - *Backend, Database, Deployment & Architecture*
+* **Satyam Vatsal** - *Backend, Database & Deployment *
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the `LICENSE.md` file for details.
+This project is licensed under the GNU General Purporse Licence 3.0 - see the `LICENSE.md` file for details.
 ---
