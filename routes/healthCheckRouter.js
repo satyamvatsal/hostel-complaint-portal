@@ -6,7 +6,8 @@ router.get("/ping", (req, res) => {
   let dbStatus = "disconnected";
 
   dbStatus = mongoose.connection.readyState;
-  if (dbStatus !== "connected") {
+  console.log(dbStatus);
+  if (dbStatus !== 1) {
     return res.status(503).json({
       status: "MongoDB down",
       uptime: process.uptime(),
