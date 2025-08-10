@@ -21,6 +21,6 @@ app.use("/complaint", authMiddleare, complainRouter);
 app.use("/admin", adminRouter);
 app.all("/{*splat}", (req, res) => res.redirect("/user"));
 const port = process.env.PORT;
-app.listen(port, "0.0.0.0", () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(port, () => {
+  console.log(`Hostel complaint server listening on port ${port}`);
 });
