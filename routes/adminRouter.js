@@ -2,16 +2,15 @@ const express = require("express");
 const renderHomePage = require("../utils/renderHomePage");
 const router = express.Router();
 const loginAdminUser = require("../controllers/loginAdminUser");
-const authMiddleare = require("../middleware/auth");
+const authMiddleware = require("../middleware/auth");
 const Complaint = require("../models/Complaint");
-const authMiddleareAdmin = require("../middleware/authAdmin");
+const authMiddlewareAdmin = require("../middleware/authAdmin");
 
 router.get("/login", (req, res) => {
   res.render("adminLogin");
 });
 
 router.post("/login", async (req, res) => {
-  console.log(req.body);
   try {
     const token = await loginAdminUser(req.body);
     res.cookie("token", token, {
@@ -24,13 +23,13 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     console.error("error while admin login: ", err);
     const data = {
-      message: "error while login",
+      message: "Incorrect login credentials",
     };
-    res.render("adminHome", data);
+    res.render("adminLogin", data);
   }
 });
 
-router.get("/home", authMiddleare, async (req, res) => {
+router.get("/home", authMiddlewareAdmin, async (req, res) => {
   const filter = {
     hostel_no: req.user.hostel_no,
   };
@@ -38,7 +37,7 @@ router.get("/home", authMiddleare, async (req, res) => {
   res.render("adminHome", data);
 });
 
-router.post("/resolve/:id", authMiddleareAdmin, async (req, res) => {
+router.post("/resolve/:id", authMiddlewareAdmin, async (req, res) => {
   try {
     const user = req.user;
     const complaintId = req.params.id;
@@ -57,12 +56,15 @@ router.post("/resolve/:id", authMiddleareAdmin, async (req, res) => {
       hostel_no: req.user.hostel_no,
     };
     const data = await renderHomePage(req, res, msg, filter);
-    console.log(data);
     res.render("adminHome", data);
   } catch (err) {
     console.log("error while resolving complaint,", err);
     return res.redirect("/admin/home");
   }
+});
+
+router.all("/{*splat}", (req, res) => {
+  res.redirect("/admin/login");
 });
 
 module.exports = router;

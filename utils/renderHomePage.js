@@ -3,7 +3,7 @@ const User = require("../models/User");
 
 async function renderHomePage(req, res, extraData = {}, filter = {}) {
   const complaints = await Complaint.find(filter)
-    .populate("user", "username room_no phone")
+    .populate("user", "username room_no phone scholar_no")
     .sort({ createdAt: 1 });
 
   const data = {
@@ -11,7 +11,6 @@ async function renderHomePage(req, res, extraData = {}, filter = {}) {
     complaints,
     ...extraData,
   };
-  console.log(data);
   return data;
 }
 

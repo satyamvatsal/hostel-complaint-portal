@@ -1,7 +1,6 @@
 const Complaint = require("../models/Complaint");
 
 const addComplaint = async (user, complain) => {
-  console.log(user, complain);
   const newComplain = new Complaint({
     title: complain.title,
     description: complain.description,
