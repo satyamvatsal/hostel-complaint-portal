@@ -6,6 +6,7 @@ const userRouter = require("./routes/userRouter");
 const complainRouter = require("./routes/complainRouter");
 const authMiddleare = require("./middleware/auth");
 const adminRouter = require("./routes/adminRouter");
+const healthCheckRouter = require("./routes/healthCheckRouter");
 require("dotenv").config({ path: ".env.local" });
 
 app.set("view engine", "ejs");
@@ -19,6 +20,7 @@ connectDB();
 app.use("/user", userRouter);
 app.use("/complaint", authMiddleare, complainRouter);
 app.use("/admin", adminRouter);
+app.use("/health", healthCheckRouter);
 app.all("/{*splat}", (req, res) => res.redirect("/user"));
 const port = process.env.PORT;
 app.listen(port, () => {
