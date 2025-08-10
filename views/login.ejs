@@ -31,11 +31,15 @@
                 </div>
             </div>
 
+            
+
             <!-- Right Section - Form -->
-            <div class="flex w-full lg:w-1/2 items-center justify-center bg-gray-50 p-8">
+            <div class=" w-full lg:w-1/2 items-center justify-center bg-grey-30  p-8">
                  <!-- checking user exit or not -->
                
-                      
+                      <div class="lg:hidden mb-6 flex justify-center  w-full">
+                        <img src="/manit.png" alt="Hostel Complaint Portal Logo" class="w-24 h-24" />
+                      </div>
                 <form class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md" action="/user/login" method="POST">
 
                      <% if (typeof message !== "undefined" && message) { %>
