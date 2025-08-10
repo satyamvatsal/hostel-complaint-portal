@@ -14,107 +14,106 @@
 
 <body>
   
-       <div class="min-h-screen flex">
+        <div class="min-h-screen flex">
        
 
   <!-- Left Section - Visible only on large screens -->
-<div class="hidden lg:flex w-1/2 relative bg-gradient-to-b from-blue-600 to-blue-800 text-white items-center justify-center">
-  <div class="absolute inset-0 bg-[url('/complaint.png')] bg-cover bg-center opacity-30"></div>
-  <div class="relative z-10 flex flex-col items-center p-6 text-center">
-    <img src="/manit.png" alt="Hostel Complaint Portal Logo" class="w-24 h-24 mb-6" />
-    <h1 class="text-5xl font-bold mb-4">Register Your Complaint</h1>
-    <p class="text-lg max-w-md">
-      Let's connect and improve your hostel experience. Your voice matters — let’s make it heard.
-    </p>
-  </div>
-</div>
+            <div class="hidden lg:flex w-1/2 relative bg-gradient-to-b from-blue-600 to-blue-800 text-white items-center justify-center">
+                <div class="absolute inset-0 bg-[url('/complaint.png')] bg-cover bg-center opacity-30"></div>
+                <div class="relative z-10 flex flex-col items-center p-6 text-center">
+                    <img src="/manit.png" alt="Hostel Complaint Portal Logo" class="w-24 h-24 mb-6" />
+                    <h1 class="text-5xl font-bold mb-4">Register Your Complaint</h1>
+                    <p class="text-lg max-w-md">
+                        Let's connect and improve your hostel experience. Your voice matters — let’s make it heard.
+                    </p>
+                </div>
+            </div>
 
 
             <!-- Right Section - Form -->
             <div class=" w-full lg:w-1/2 items-center justify-center bg-gray-50 p-8">
                  <!-- checking user exit or not -->
-               
                 <div class="lg:hidden mb-6 flex justify-center  w-full">
                         <img src="/manit.png" alt="Hostel Complaint Portal Logo" class="w-24 h-24" />
                 </div>
                 <form class="bg-white  shadow-lg rounded-lg p-8 w-full max-w-md" action="/user/register" method="POST">
                      <% if (typeof message !== "undefined" && message) { %>
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                        <span class="block sm:inline"><%= message %></span>
-                    </div>
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                            <span class="block sm:inline"><%= message %></span>
+                        </div>
                     <% } %>
-                <h2 class="text-2xl font-bold text-blue-700 mb-6">Create a New Account</h2>
+                    <h2 class="text-2xl font-bold text-blue-700 mb-6">Create a New Account</h2>
                 
-                <div class="mb-4">
+                    <div class="mb-4">
                     
-                    <label class="block mb-1 font-semibold text-gray-700">Name</label>
-                    <input name="userName" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your name">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1 font-semibold text-gray-700">Email</label>
-                    <input name ="email" type="email" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your email">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1 font-semibold text-gray-700">Phone Number</label>
-                    <input name="phoneNumber"type="number" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your phone number">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1 font-semibold text-gray-700">Scholar Number</label>
-                    <input name="scholarNumber"type="number" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your scholar number">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1 font-semibold text-gray-700">Hostel Number</label>
-                    <select
-                            name="hostelNumber"
-                            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            >
-                            <option value="H1">H1</option>
-                            <option value="H2">H2</option>
-                            <option value="H3">H3</option>
-                            <option value="H4">H4</option>
-                            <option value="H5A">H5A</option>
-                            <option value="H5B">H5B</option>
-                            <option value="H6A">H6A</option>
-                            <option value="H6B">H6B</option>
-                            <option value="H7">H7</option>
-                            <option value="H8A">H8A</option>
-                            <option value="H8B">H8B</option>
-                            <option value="H9">H9</option>
-                            <option value="H10A">H10A</option>
-                            <option value="H10B">H10B</option>
-                            <option value="H10C">H10C</option>
-                            <option value="H10D">H10D</option>
-                            <option value="H11">H11</option>
-                            <option value="H12">H12</option>
-                            </select>
+                        <label class="block mb-1 font-semibold text-gray-700">Name</label>
+                        <input name="userName" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your name">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1 font-semibold text-gray-700">Email</label>
+                        <input name ="email" type="email" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your email">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1 font-semibold text-gray-700">Phone Number</label>
+                        <input name="phoneNumber"type="number" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your phone number">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1 font-semibold text-gray-700">Scholar Number</label>
+                        <input name="scholarNumber"type="number" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your scholar number">
+                    </div>
+                    <div class="mb-4">
+                            <label class="block mb-1 font-semibold text-gray-700">Hostel Number</label>
+                            <select
+                                    name="hostelNumber"
+                                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    >
+                                    <option value="H1">H1</option>
+                                    <option value="H2">H2</option>
+                                    <option value="H3">H3</option>
+                                    <option value="H4">H4</option>
+                                    <option value="H5A">H5A</option>
+                                    <option value="H5B">H5B</option>
+                                    <option value="H6A">H6A</option>
+                                    <option value="H6B">H6B</option>
+                                    <option value="H7">H7</option>
+                                    <option value="H8A">H8A</option>
+                                    <option value="H8B">H8B</option>
+                                    <option value="H9">H9</option>
+                                    <option value="H10A">H10A</option>
+                                    <option value="H10B">H10B</option>
+                                    <option value="H10C">H10C</option>
+                                    <option value="H10D">H10D</option>
+                                    <option value="H11">H11</option>
+                                    <option value="H12">H12</option>
+                                    </select>
 
-                </div>
+                    </div>
                 
-                <div class="mb-4">
-                    <label class="block mb-1 font-semibold text-gray-700">Room Number</label>
-                    <input name="roomNumber" type="number" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your room number">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1 font-semibold text-gray-700">Password</label>
-                    <input name="password" type="password" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your room password">
-                </div>
+                    <div class="mb-4">
+                        <label class="block mb-1 font-semibold text-gray-700">Room Number</label>
+                        <input name="roomNumber" type="number" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your room number">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1 font-semibold text-gray-700">Password</label>
+                        <input name="password" type="password" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your room password">
+                    </div>
                 
                 
                 
-                <button class="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
-                    Submit
-                </button>
-                <p class="mt-4 text-center text-gray-600">
-                    Already have an account? <a href="/user/login" class="text-blue-600 hover:underline">Login here</a>
-                </p>
-                 <p class="mt-4 text-center text-gray-600">
-                    Admin?   <a href="/admin/login" class="text-red-600 hover:underline">Click here</a>
+                    <button class="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
+                        Submit
+                    </button>
+                    <p class="mt-4 text-center text-gray-600">
+                        Already have an account? <a href="/user/login" class="text-blue-600 hover:underline">Login here</a>
+                    </p>
+                    <p class="mt-4 text-center text-gray-600">
+                        Admin?   <a href="/admin/login" class="text-red-600 hover:underline">Click here</a>
 
-                </p>
+                    </p>
                 </form>
 
             </div>
-            </div>
+        </div>
 
                 
      
